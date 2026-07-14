@@ -1,0 +1,24 @@
+services:
+  line-provider:
+    build:
+      context: .
+      dockerfile: line_provider/Dockerfile
+    ports:
+      - "8001:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/rest/api/v1/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  bet-maker:
+    build:
+      context: .
+      dockerfile: bet_maker/Dockerfile
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/rest/api/v1/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
