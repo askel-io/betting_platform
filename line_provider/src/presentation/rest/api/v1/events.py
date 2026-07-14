@@ -3,11 +3,13 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 
 from line_provider.src.application.use_cases.create_event import CreateEventUseCase
+from line_provider.src.application.use_cases.finish_event import FinishEventUseCase
 from line_provider.src.application.use_cases.get_event import GetEventUseCase
 from line_provider.src.application.use_cases.list_events import ListEventsUseCase
 from line_provider.src.application.use_cases.update_event import UpdateEventUseCase
 from line_provider.src.presentation.rest.dependencies import (
     get_create_event_use_case,
+    get_finish_event_use_case,
     get_get_event_use_case,
     get_list_events_use_case,
     get_update_event_use_case,
@@ -15,6 +17,7 @@ from line_provider.src.presentation.rest.dependencies import (
 from line_provider.src.presentation.rest.schemas.event import (
     CreateEventRequest,
     EventResponse,
+    FinishEventRequest,
     UpdateEventRequest,
 )
 
@@ -61,4 +64,14 @@ async def update_event(
         coefficient=body.coefficient,
         deadline=body.deadline,
     )
+    return EventResponse.from_entity(event)
+
+
+@router.patch("/{event_id}/finish", response_model=EventResponse)
+async def finish_event(
+    event_id: str,
+    body: FinishEventRequest,
+    use_case: Annotated[FinishEventUseCase, Depends(get_finish_event_use_case)],
+) -> EventResponse:
+    event = await use_case.execute(event_id=event_id, state=body.state)
     return EventResponse.from_entity(event)

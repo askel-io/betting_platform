@@ -1,5 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
+from typing import Literal
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -20,6 +21,10 @@ class UpdateEventRequest(BaseModel):
         if self.coefficient is None and self.deadline is None:
             raise ValueError("At least one field must be provided")
         return self
+
+
+class FinishEventRequest(BaseModel):
+    state: Literal["finished_win", "finished_lose"]
 
 
 class EventResponse(BaseModel):
