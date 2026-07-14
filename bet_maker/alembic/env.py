@@ -8,7 +8,6 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from bet_maker.src.infrastructure.db.base import Base
-from bet_maker.src.infrastructure.db.models import BetModel  # noqa: F401
 
 config = context.config
 
@@ -19,10 +18,15 @@ target_metadata = Base.metadata
 
 
 def get_database_url() -> str:
-    return os.getenv(
-        "DATABASE_URL",
-        config.get_main_option("sqlalchemy.url"),
-    )
+    database_url = os.getenv("DATABASE_URL")
+    if database_url is not None:
+        return database_url
+
+    url = config.get_main_option("sqlalchemy.url")
+    if url is None:
+        raise RuntimeError("DATABASE_URL must be set")
+
+    return url
 
 
 def run_migrations_offline() -> None:
