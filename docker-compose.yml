@@ -6,7 +6,10 @@ services:
       POSTGRES_USER: line_provider
       POSTGRES_PASSWORD: line_provider
     ports:
-      - "5432:5432"
+      - "5433:5432"
+    volumes:
+      - line_provider_db:/var/lib/postgresql/data
+
   line-provider:
     build:
       context: .
@@ -21,7 +24,7 @@ services:
     depends_on:
       - line-provider-db
     environment:
-      DATABASE_URL: postgresql+asyncpg://line_provider:line_provider@postgres:5432/line_provider
+      DATABASE_URL: postgresql+asyncpg://line_provider:line_provider@line-provider-db:5432/line_provider
 
   bet-maker:
     build:
@@ -34,3 +37,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+
+volumes:
+  line_provider_db:
