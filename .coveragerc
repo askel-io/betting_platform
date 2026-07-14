@@ -1,0 +1,16 @@
+[run]
+source =
+    line_provider
+    bet_maker
+omit =
+    */tests/*
+    */alembic/*
+    */__init__.py
+
+[report]
+show_missing = True
+skip_covered = False
+precision = 0
+
+[html]
+directory = htmlcov
