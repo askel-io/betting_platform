@@ -1,4 +1,7 @@
 import os
+
+os.environ.setdefault("KAFKA_ENABLED", "false")
+
 from collections.abc import AsyncGenerator
 from datetime import datetime, timezone
 from decimal import Decimal
