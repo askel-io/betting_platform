@@ -1,12 +1,7 @@
 import pytest
 from httpx import AsyncClient
 
-from tests.scenarios.conftest import (
-    FUTURE_DEADLINE,
-    PAST_DEADLINE,
-    create_event,
-    finish_event,
-)
+from tests.scenarios.conftest import PAST_DEADLINE, create_event, finish_event
 
 pytestmark = pytest.mark.scenario
 

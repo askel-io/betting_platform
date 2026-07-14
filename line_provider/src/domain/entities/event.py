@@ -22,7 +22,7 @@ def _to_coefficient(value: Decimal) -> Decimal:
     try:
         coefficient = Decimal(value).quantize(Decimal("0.01"))
     except (InvalidOperation, TypeError):
-        raise InvalidCoefficientError(value)
+        raise InvalidCoefficientError(value) from None
 
     if coefficient <= 0:
         raise InvalidCoefficientError(value)

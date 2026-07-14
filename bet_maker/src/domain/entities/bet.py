@@ -21,7 +21,7 @@ def _to_amount(value: Decimal) -> Decimal:
     try:
         amount = Decimal(value).quantize(Decimal("0.01"))
     except (InvalidOperation, TypeError):
-        raise InvalidAmountError(value)
+        raise InvalidAmountError(value) from None
 
     if amount <= 0:
         raise InvalidAmountError(value)

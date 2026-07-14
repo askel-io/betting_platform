@@ -262,5 +262,6 @@ async def wait_for_bet_status(
         await asyncio.sleep(delay_seconds)
 
     raise AssertionError(
-        f"Bet {bet_id} did not reach status {expected_status}. Last state: {last_payload}"
+        f"Bet {bet_id} did not reach status {expected_status}. "
+        f"Last state: {last_payload}"
     )

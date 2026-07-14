@@ -6,7 +6,6 @@ from line_provider.src.application.use_cases.create_event import CreateEventUseC
 from line_provider.src.application.use_cases.get_event import GetEventUseCase
 from line_provider.src.application.use_cases.list_events import ListEventsUseCase
 from line_provider.src.application.use_cases.update_event import UpdateEventUseCase
-from line_provider.src.domain.entities.event import EventState
 from line_provider.src.errors.event_error import EventNotFoundError
 from line_provider.src.infrastructure.repositories.postgres_event_repository import (
     PostgresEventRepository,
