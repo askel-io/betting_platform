@@ -26,6 +26,17 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://line_provider:line_provider@line-provider-db:5432/line_provider
 
+  bet-maker-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: bet_maker
+      POSTGRES_USER: bet_maker
+      POSTGRES_PASSWORD: bet_maker
+    ports:
+      - "5434:5432"
+    volumes:
+      - bet_maker_db:/var/lib/postgresql/data
+
   bet-maker:
     build:
       context: .
@@ -37,6 +48,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    depends_on:
+      - bet-maker-db
+    environment:
+      DATABASE_URL: postgresql+asyncpg://bet_maker:bet_maker@bet-maker-db:5432/bet_maker
 
 volumes:
   line_provider_db:
+  bet_maker_db:
