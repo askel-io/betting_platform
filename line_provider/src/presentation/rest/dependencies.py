@@ -7,18 +7,17 @@ from line_provider.src.application.use_cases.get_event import GetEventUseCase
 from line_provider.src.application.use_cases.list_events import ListEventsUseCase
 from line_provider.src.application.use_cases.update_event import UpdateEventUseCase
 from line_provider.src.domain.repositories.event_repository import EventRepository
-from line_provider.src.infrastructure.repositories.in_memory_event_repository import (
-    InMemoryEventRepository,
+from sqlalchemy.ext.asyncio import AsyncSession
+from line_provider.src.infrastructure.db.session import get_session
+from line_provider.src.infrastructure.repositories.postgres_event_repository import (
+    PostgresEventRepository,
 )
 
-_repository: EventRepository | None = None
 
-
-def get_event_repository() -> EventRepository:
-    global _repository
-    if _repository is None:
-        _repository = InMemoryEventRepository()
-    return _repository
+async def get_event_repository(
+    session: Annotated[AsyncSession, Depends(get_session)],
+) -> EventRepository:
+    return PostgresEventRepository(session)
 
 
 def get_create_event_use_case(
