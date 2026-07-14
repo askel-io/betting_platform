@@ -5,7 +5,10 @@ from enum import Enum
 from uuid import uuid4
 
 from line_provider.src.errors.event_error import (
-    EventAlreadyFinishedError, InvalidCoefficientError, InvalidDeadlineError
+    EventAlreadyFinishedError,
+    EventNotEditableError,
+    InvalidCoefficientError,
+    InvalidDeadlineError,
 )
 
 
@@ -55,6 +58,21 @@ class Event:
     def is_open_for_betting(self, now: datetime) -> bool:
         return self.state == EventState.NEW and now < self.deadline
 
+    def update_coefficient(self, coefficient: Decimal) -> None:
+        self._ensure_editable()
+        self.coefficient = _to_coefficient(coefficient)
+
+    def update_deadline(self, deadline: datetime, now: datetime) -> None:
+        self._ensure_editable()
+
+        if deadline.tzinfo is None:
+            raise InvalidDeadlineError("Deadline must be timezone-aware")
+
+        if deadline <= now:
+            raise InvalidDeadlineError("Deadline must be in the future")
+
+        self.deadline = deadline
+
     def finish_win(self) -> None:
         self._finish(EventState.FINISHED_WIN)
 
@@ -65,3 +83,7 @@ class Event:
         if self.state != EventState.NEW:
             raise EventAlreadyFinishedError(self.eventId)
         self.state = new_state
+
+    def _ensure_editable(self) -> None:
+        if self.state != EventState.NEW:
+            raise EventNotEditableError(self.eventId)
