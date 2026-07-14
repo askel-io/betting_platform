@@ -2,10 +2,12 @@ import os
 import socket
 import uuid
 
+from config.settings import get_settings, reload_settings
+
 os.environ["KAFKA_ENABLED"] = "true"
-os.environ.setdefault("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
-os.environ.setdefault("KAFKA_EVENT_FINISHED_TOPIC", "event.finished")
 os.environ["KAFKA_CONSUMER_GROUP"] = f"bet-maker-scenarios-{uuid.uuid4().hex[:8]}"
+reload_settings()
+_settings = get_settings()
 
 from collections.abc import AsyncGenerator
 from contextlib import AsyncExitStack
@@ -41,14 +43,8 @@ from line_provider.src.infrastructure.db.session import (
     get_session as get_line_provider_session,
 )
 
-LINE_PROVIDER_TEST_DATABASE_URL = os.getenv(
-    "LINE_PROVIDER_TEST_DATABASE_URL",
-    "postgresql+asyncpg://line_provider:line_provider@localhost:5433/line_provider_test",
-)
-BET_MAKER_TEST_DATABASE_URL = os.getenv(
-    "BET_MAKER_TEST_DATABASE_URL",
-    "postgresql+asyncpg://bet_maker:bet_maker@localhost:5434/bet_maker_test",
-)
+LINE_PROVIDER_TEST_DATABASE_URL = _settings.line_provider_test_database_url
+BET_MAKER_TEST_DATABASE_URL = _settings.bet_maker_test_database_url
 
 FUTURE_DEADLINE = "2026-12-31T23:59:59Z"
 PAST_DEADLINE = "2020-01-01T00:00:00Z"
@@ -57,7 +53,7 @@ PAST_DEADLINE = "2020-01-01T00:00:00Z"
 def kafka_is_available() -> bool:
     try:
         with socket.create_connection(
-            (os.environ["KAFKA_BOOTSTRAP_SERVERS"].split(":")[0], 9092),
+            (_settings.kafka_host, _settings.kafka_port),
             timeout=2,
         ):
             return True
@@ -69,7 +65,8 @@ def kafka_is_available() -> bool:
 def require_kafka() -> None:
     if not kafka_is_available():
         pytest.skip(
-            "Kafka is not available on localhost:9092. Run: docker compose up -d kafka"
+            f"Kafka is not available on {_settings.kafka_host}:{_settings.kafka_port}. "
+            "Run: docker compose up -d kafka"
         )
 
 

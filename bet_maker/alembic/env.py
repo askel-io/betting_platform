@@ -1,12 +1,18 @@
 import asyncio
-import os
+import sys
 from logging.config import fileConfig
+from pathlib import Path
+
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
+from config.settings import get_settings
 from bet_maker.src.infrastructure.db.base import Base
 
 config = context.config
@@ -18,15 +24,7 @@ target_metadata = Base.metadata
 
 
 def get_database_url() -> str:
-    database_url = os.getenv("DATABASE_URL")
-    if database_url is not None:
-        return database_url
-
-    url = config.get_main_option("sqlalchemy.url")
-    if url is None:
-        raise RuntimeError("DATABASE_URL must be set")
-
-    return url
+    return get_settings().bet_maker_database_url
 
 
 def run_migrations_offline() -> None:

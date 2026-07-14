@@ -23,11 +23,9 @@ from bet_maker.src.infrastructure.db.models.bet_model import BetModel  # noqa: F
 from bet_maker.src.infrastructure.repositories.postgres_bet_repository import (
     PostgresBetRepository,
 )
+from config.settings import get_settings
 
-TEST_DATABASE_URL = os.getenv(
-    "TEST_DATABASE_URL",
-    "postgresql+asyncpg://bet_maker:bet_maker@localhost:5434/bet_maker",
-)
+TEST_DATABASE_URL = get_settings().bet_maker_database_url
 
 
 class FakeLineProviderPort(LineProviderPort):

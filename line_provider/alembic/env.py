@@ -1,12 +1,18 @@
 import asyncio
-import os
+import sys
 from logging.config import fileConfig
+from pathlib import Path
+
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
+from config.settings import get_settings
 from line_provider.src.infrastructure.db.base import Base
 from line_provider.src.infrastructure.db.models import EventModel  # noqa: F401
 
@@ -19,10 +25,7 @@ target_metadata = Base.metadata
 
 
 def get_database_url() -> str:
-    return os.getenv(
-        "DATABASE_URL",
-        config.get_main_option("sqlalchemy.url"),
-    )
+    return get_settings().line_provider_database_url
 
 
 def run_migrations_offline() -> None:

@@ -21,11 +21,9 @@ from line_provider.src.infrastructure.db.models import EventModel  # noqa: F401
 from line_provider.src.infrastructure.repositories.postgres_event_repository import (
     PostgresEventRepository,
 )
+from config.settings import get_settings
 
-TEST_DATABASE_URL = os.getenv(
-    "TEST_DATABASE_URL",
-    "postgresql+asyncpg://line_provider:line_provider@localhost:5433/line_provider",
-)
+TEST_DATABASE_URL = get_settings().line_provider_database_url
 
 
 @pytest_asyncio.fixture

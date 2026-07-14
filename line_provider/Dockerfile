@@ -5,6 +5,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY config/ ./config/
 COPY line_provider/ ./line_provider/
 
 ENV PYTHONPATH=/app
