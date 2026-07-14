@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class LineProviderEventDTO(BaseModel):
-    eventId: str
+    event_id: str
     coefficient: Decimal
     deadline: datetime
     state: str

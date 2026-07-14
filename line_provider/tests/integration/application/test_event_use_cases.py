@@ -23,7 +23,7 @@ async def test_create_event_use_case(
 
     event = await use_case.execute(coefficient, future_deadline)
 
-    saved = await event_repository.get_by_id(event.eventId)
+    saved = await event_repository.get_by_id(event.event_id)
     assert saved is not None
     assert saved.coefficient == Decimal("2.50")
 
@@ -67,14 +67,14 @@ async def test_update_event_use_case(
 
     event = await create_use_case.execute(coefficient, future_deadline)
     updated = await update_use_case.execute(
-        event_id=event.eventId,
+        event_id=event.event_id,
         coefficient=Decimal("5.00"),
         now=now,
     )
 
     assert updated.coefficient == Decimal("5.00")
 
-    saved = await event_repository.get_by_id(event.eventId)
+    saved = await event_repository.get_by_id(event.event_id)
     assert saved is not None
     assert saved.coefficient == Decimal("5.00")
 

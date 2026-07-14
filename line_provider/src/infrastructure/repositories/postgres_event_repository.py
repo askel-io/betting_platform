@@ -30,7 +30,7 @@ class PostgresEventRepository(EventRepository):
     @staticmethod
     def _to_model(event: Event) -> EventModel:
         return EventModel(
-            event_id=event.eventId,
+            event_id=event.event_id,
             coefficient=event.coefficient,
             deadline=event.deadline,
             state=event.state.value,
@@ -40,7 +40,7 @@ class PostgresEventRepository(EventRepository):
     @staticmethod
     def _to_entity(model: EventModel) -> Event:
         return Event(
-            eventId=model.event_id,
+            event_id=model.event_id,
             coefficient=model.coefficient,
             deadline=model.deadline,
             state=EventState(model.state),

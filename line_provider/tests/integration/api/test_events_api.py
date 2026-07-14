@@ -48,7 +48,7 @@ async def test_create_event(client: AsyncClient) -> None:
     data = response.json()
     assert data["coefficient"] == "2.50"
     assert data["state"] == EventState.NEW.value
-    assert "eventId" in data
+    assert "event_id" in data
 
 
 @pytest.mark.asyncio
@@ -62,10 +62,10 @@ async def test_get_event(
     event = Event.create(coefficient, future_deadline, now=now)
     await event_repository.save(event)
 
-    response = await client.get(f"/rest/api/v1/events/{event.eventId}")
+    response = await client.get(f"/rest/api/v1/events/{event.event_id}")
 
     assert response.status_code == 200
-    assert response.json()["eventId"] == event.eventId
+    assert response.json()["event_id"] == event.event_id
 
 
 @pytest.mark.asyncio
@@ -104,7 +104,7 @@ async def test_update_event(
     await event_repository.save(event)
 
     response = await client.patch(
-        f"/rest/api/v1/events/{event.eventId}",
+        f"/rest/api/v1/events/{event.event_id}",
         json={"coefficient": "4.00"},
     )
 
@@ -125,7 +125,7 @@ async def test_update_finished_event_returns_409(
     await event_repository.save(event)
 
     response = await client.patch(
-        f"/rest/api/v1/events/{event.eventId}",
+        f"/rest/api/v1/events/{event.event_id}",
         json={"coefficient": "4.00"},
     )
 

@@ -33,7 +33,7 @@ def _to_coefficient(value: Decimal) -> Decimal:
 class Event:
     coefficient: Decimal
     deadline: datetime
-    eventId: str = field(default_factory=lambda: str(uuid4()))
+    event_id: str = field(default_factory=lambda: str(uuid4()))
     state: EventState = EventState.NEW
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -81,9 +81,9 @@ class Event:
 
     def _finish(self, new_state: EventState) -> None:
         if self.state != EventState.NEW:
-            raise EventAlreadyFinishedError(self.eventId)
+            raise EventAlreadyFinishedError(self.event_id)
         self.state = new_state
 
     def _ensure_editable(self) -> None:
         if self.state != EventState.NEW:
-            raise EventNotEditableError(self.eventId)
+            raise EventNotEditableError(self.event_id)

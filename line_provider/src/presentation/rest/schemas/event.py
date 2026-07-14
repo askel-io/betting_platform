@@ -28,7 +28,7 @@ class FinishEventRequest(BaseModel):
 
 
 class EventResponse(BaseModel):
-    eventId: str
+    event_id: str
     coefficient: Decimal
     deadline: datetime
     state: EventState
@@ -37,7 +37,7 @@ class EventResponse(BaseModel):
     @classmethod
     def from_entity(cls, event: Event) -> "EventResponse":
         return cls(
-            eventId=event.eventId,
+            event_id=event.event_id,
             coefficient=event.coefficient,
             deadline=event.deadline,
             state=event.state,

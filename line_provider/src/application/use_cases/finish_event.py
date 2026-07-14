@@ -30,5 +30,5 @@ class FinishEventUseCase:
             event.finish_lose()
 
         await self._repository.save(event)
-        await self._publisher.publish(event_id=event.eventId, state=state)
+        await self._publisher.publish(event_id=event.event_id, state=state)
         return event

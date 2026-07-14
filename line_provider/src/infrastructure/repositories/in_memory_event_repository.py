@@ -7,7 +7,7 @@ class InMemoryEventRepository(EventRepository):
         self._storage: dict[str, Event] = {}
 
     async def save(self, event: Event) -> None:
-        self._storage[event.eventId] = event
+        self._storage[event.event_id] = event
 
     async def get_by_id(self, event_id: str) -> Event | None:
         return self._storage.get(event_id)

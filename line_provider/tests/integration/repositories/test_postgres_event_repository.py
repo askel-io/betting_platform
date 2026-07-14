@@ -18,10 +18,10 @@ async def test_save_and_get(
     event = Event.create(coefficient, future_deadline, now=now)
 
     await event_repository.save(event)
-    loaded = await event_repository.get_by_id(event.eventId)
+    loaded = await event_repository.get_by_id(event.event_id)
 
     assert loaded is not None
-    assert loaded.eventId == event.eventId
+    assert loaded.event_id == event.event_id
     assert loaded.coefficient == event.coefficient
     assert loaded.deadline == event.deadline
 
@@ -51,9 +51,9 @@ async def test_list_all(
     events = await event_repository.list_all()
 
     assert len(events) == 2
-    event_ids = {event.eventId for event in events}
-    assert event1.eventId in event_ids
-    assert event2.eventId in event_ids
+    event_ids = {event.event_id for event in events}
+    assert event1.event_id in event_ids
+    assert event2.event_id in event_ids
 
 
 @pytest.mark.asyncio
@@ -69,7 +69,7 @@ async def test_save_updates_existing_event(
     event.update_coefficient(Decimal("4.50"))
     await event_repository.save(event)
 
-    loaded = await event_repository.get_by_id(event.eventId)
+    loaded = await event_repository.get_by_id(event.event_id)
 
     assert loaded is not None
     assert loaded.coefficient == Decimal("4.50")
