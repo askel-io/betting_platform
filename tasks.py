@@ -1,7 +1,69 @@
 
 from invoke.tasks import task
 
-PYTHON_TARGETS = "line_provider bet_maker tests"
+PYTHON_TARGETS = "line_provider bet_maker tests config"
+MIGRATE_ENV = {"PYTHONPATH": "."}
+
+
+def _run_line_provider_migrations(c) -> None:
+    from config.settings import get_settings
+
+    settings = get_settings()
+    c.run(
+        "alembic -c line_provider/alembic.ini upgrade head",
+        env={
+            **MIGRATE_ENV,
+            "DATABASE_URL": settings.line_provider_database_url,
+        },
+        pty=False,
+    )
+
+
+def _run_bet_maker_migrations(c) -> None:
+    from config.settings import get_settings
+
+    settings = get_settings()
+    c.run(
+        "alembic -c bet_maker/alembic.ini upgrade head",
+        env={
+            **MIGRATE_ENV,
+            "DATABASE_URL": settings.bet_maker_database_url,
+        },
+        pty=False,
+    )
+
+
+@task
+def migrate_line_provider(c) -> None:
+    """Apply Alembic migrations for line-provider."""
+    _run_line_provider_migrations(c)
+
+
+@task
+def migrate_bet_maker(c) -> None:
+    """Apply Alembic migrations for bet-maker."""
+    _run_bet_maker_migrations(c)
+
+
+@task
+def migrate(c, service: str = "all") -> None:
+    """Apply Alembic migrations (service: all, line_provider, bet_maker)."""
+    if service == "all":
+        _run_line_provider_migrations(c)
+        _run_bet_maker_migrations(c)
+        return
+
+    if service == "line_provider":
+        _run_line_provider_migrations(c)
+        return
+
+    if service == "bet_maker":
+        _run_bet_maker_migrations(c)
+        return
+
+    raise ValueError(
+        f"Unknown service: {service!r}. Use all, line_provider, or bet_maker."
+    )
 
 
 @task
