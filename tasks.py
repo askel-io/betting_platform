@@ -40,6 +40,17 @@ def check(c) -> None:
     lint(c)
 
 
+@task
+def test(c, verbose: bool = True) -> None:
+    """Run all tests with pytest and print coverage summary."""
+    flag = "-v" if verbose else ""
+    c.run(
+        f"pytest {flag} --cov --cov-report=term-missing:skip-covered".strip(),
+        pty=False,
+        env={"PYTHONPATH": "."},
+    )
+
+
 @task(default=True)
 def all(c) -> None:
     """Format code and run linter."""
