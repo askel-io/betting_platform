@@ -1,14 +1,20 @@
 import pytest
 from httpx import AsyncClient
 
-from tests.scenarios.conftest import FUTURE_DEADLINE, PAST_DEADLINE, create_event, finish_event
-
+from tests.scenarios.conftest import (
+    FUTURE_DEADLINE,
+    PAST_DEADLINE,
+    create_event,
+    finish_event,
+)
 
 pytestmark = pytest.mark.scenario
 
 
 @pytest.mark.asyncio
-async def test_scenario_create_event_and_retrieve_it(platform_clients: tuple[AsyncClient, AsyncClient]):
+async def test_scenario_create_event_and_retrieve_it(
+    platform_clients: tuple[AsyncClient, AsyncClient]
+):
     line_provider, _ = platform_clients
 
     created = await create_event(line_provider)
@@ -92,7 +98,9 @@ async def test_scenario_reject_update_on_finished_event(
 
 
 @pytest.mark.asyncio
-async def test_scenario_finish_event_as_win(platform_clients: tuple[AsyncClient, AsyncClient]):
+async def test_scenario_finish_event_as_win(
+    platform_clients: tuple[AsyncClient, AsyncClient]
+):
     line_provider, _ = platform_clients
     created = await create_event(line_provider)
     event_id = created["event_id"]
@@ -104,7 +112,9 @@ async def test_scenario_finish_event_as_win(platform_clients: tuple[AsyncClient,
 
 
 @pytest.mark.asyncio
-async def test_scenario_finish_event_as_lose(platform_clients: tuple[AsyncClient, AsyncClient]):
+async def test_scenario_finish_event_as_lose(
+    platform_clients: tuple[AsyncClient, AsyncClient]
+):
     line_provider, _ = platform_clients
     created = await create_event(line_provider)
     event_id = created["event_id"]
@@ -116,7 +126,9 @@ async def test_scenario_finish_event_as_lose(platform_clients: tuple[AsyncClient
 
 
 @pytest.mark.asyncio
-async def test_scenario_reject_double_finish(platform_clients: tuple[AsyncClient, AsyncClient]):
+async def test_scenario_reject_double_finish(
+    platform_clients: tuple[AsyncClient, AsyncClient]
+):
     line_provider, _ = platform_clients
     created = await create_event(line_provider)
     event_id = created["event_id"]

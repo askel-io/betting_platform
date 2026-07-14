@@ -3,7 +3,6 @@ from httpx import AsyncClient
 
 from tests.scenarios.conftest import create_event, finish_event, place_bet
 
-
 pytestmark = pytest.mark.scenario
 
 
@@ -47,7 +46,9 @@ async def test_scenario_reject_bet_on_finished_event(
     response = await place_bet(bet_maker, event_id=event_id)
 
     assert response.status_code == 409
-    assert response.json()["detail"] == f"Event is not available for betting: {event_id}"
+    assert (
+        response.json()["detail"] == f"Event is not available for betting: {event_id}"
+    )
 
 
 @pytest.mark.asyncio
@@ -64,7 +65,9 @@ async def test_scenario_reject_bet_with_invalid_amount(
 
 
 @pytest.mark.asyncio
-async def test_scenario_get_and_list_bets(platform_clients: tuple[AsyncClient, AsyncClient]):
+async def test_scenario_get_and_list_bets(
+    platform_clients: tuple[AsyncClient, AsyncClient]
+):
     line_provider, bet_maker = platform_clients
     created = await create_event(line_provider)
     event_id = created["event_id"]

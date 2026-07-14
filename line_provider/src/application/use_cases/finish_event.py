@@ -1,6 +1,8 @@
 from typing import Literal
 
-from line_provider.src.application.ports.event_finished_publisher import EventFinishedPublisher
+from line_provider.src.application.ports.event_finished_publisher import (
+    EventFinishedPublisher,
+)
 from line_provider.src.domain.entities.event import Event
 from line_provider.src.domain.repositories.event_repository import EventRepository
 from line_provider.src.errors.event_error import EventNotFoundError

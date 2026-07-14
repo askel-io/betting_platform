@@ -1,9 +1,14 @@
-import pytest
-
 from datetime import datetime, timezone
 from decimal import Decimal
 
-from bet_maker.src.domain.entities.bet import Bet, BetStatus, FINISHED_LOSE, FINISHED_WIN
+import pytest
+
+from bet_maker.src.domain.entities.bet import (
+    FINISHED_LOSE,
+    FINISHED_WIN,
+    Bet,
+    BetStatus,
+)
 from bet_maker.src.errors.bet_error import InvalidAmountError
 
 
@@ -43,7 +48,9 @@ def test_finish_bet_lose(event_id: str, amount: Decimal, now: datetime) -> None:
     assert bet.finished_at == now
 
 
-def test_finish_bet_is_idempotent(event_id: str, amount: Decimal, now: datetime) -> None:
+def test_finish_bet_is_idempotent(
+    event_id: str, amount: Decimal, now: datetime
+) -> None:
     bet = Bet.create(event_id=event_id, amount=amount)
     bet.finish(FINISHED_WIN, finished_at=now)
 

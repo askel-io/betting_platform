@@ -2,8 +2,12 @@ import logging
 
 from aiokafka import AIOKafkaProducer
 
-from line_provider.src.application.dto.event_finished_message import EventFinishedMessage
-from line_provider.src.application.ports.event_finished_publisher import EventFinishedPublisher
+from line_provider.src.application.dto.event_finished_message import (
+    EventFinishedMessage,
+)
+from line_provider.src.application.ports.event_finished_publisher import (
+    EventFinishedPublisher,
+)
 
 logger = logging.getLogger(__name__)
 

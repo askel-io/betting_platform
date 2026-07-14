@@ -8,7 +8,6 @@ from tests.scenarios.conftest import (
     wait_for_bet_status,
 )
 
-
 pytestmark = pytest.mark.scenario
 
 
@@ -51,7 +50,9 @@ async def test_scenario_multiple_bets_finished_via_kafka_on_event_win(
     assert finish_response.status_code == 200
 
     for response in (bet_one, bet_two, bet_three):
-        finished_bet = await wait_for_bet_status(bet_maker, response.json()["bet_id"], "won")
+        finished_bet = await wait_for_bet_status(
+            bet_maker, response.json()["bet_id"], "won"
+        )
         assert finished_bet["finished_at"] is not None
 
 

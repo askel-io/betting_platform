@@ -1,7 +1,7 @@
-import pytest
-
 from datetime import datetime, timezone
 from decimal import Decimal
+
+import pytest
 
 from line_provider.src.domain.entities.event import Event, EventState
 from line_provider.src.errors.event_error import (

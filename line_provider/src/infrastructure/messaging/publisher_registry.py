@@ -1,5 +1,10 @@
-from line_provider.src.application.ports.event_finished_publisher import EventFinishedPublisher
-from line_provider.src.infrastructure.config import KAFKA_BOOTSTRAP_SERVERS, KAFKA_EVENT_FINISHED_TOPIC
+from line_provider.src.application.ports.event_finished_publisher import (
+    EventFinishedPublisher,
+)
+from line_provider.src.infrastructure.config import (
+    KAFKA_BOOTSTRAP_SERVERS,
+    KAFKA_EVENT_FINISHED_TOPIC,
+)
 from line_provider.src.infrastructure.messaging.kafka_event_finished_publisher import (
     KafkaEventFinishedPublisher,
 )

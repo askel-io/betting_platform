@@ -5,7 +5,9 @@ from aiokafka import AIOKafkaConsumer
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from bet_maker.src.application.dto.event_finished_message import EventFinishedMessage
-from bet_maker.src.application.use_cases.finish_bets_by_event import FinishBetsByEventUseCase
+from bet_maker.src.application.use_cases.finish_bets_by_event import (
+    FinishBetsByEventUseCase,
+)
 from bet_maker.src.infrastructure.repositories.postgres_bet_repository import (
     PostgresBetRepository,
 )

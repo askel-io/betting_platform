@@ -4,11 +4,18 @@ import pytest
 
 from bet_maker.src.application.dto.line_provider_event import LineProviderEventDTO
 from bet_maker.src.application.use_cases.finish_bet import FinishBetUseCase
-from bet_maker.src.application.use_cases.finish_bets_by_event import FinishBetsByEventUseCase
+from bet_maker.src.application.use_cases.finish_bets_by_event import (
+    FinishBetsByEventUseCase,
+)
 from bet_maker.src.application.use_cases.get_bet import GetBetUseCase
 from bet_maker.src.application.use_cases.list_bets import ListBetsUseCase
 from bet_maker.src.application.use_cases.place_bet import PlaceBetUseCase
-from bet_maker.src.domain.entities.bet import Bet, BetStatus, FINISHED_LOSE, FINISHED_WIN
+from bet_maker.src.domain.entities.bet import (
+    FINISHED_LOSE,
+    FINISHED_WIN,
+    Bet,
+    BetStatus,
+)
 from bet_maker.src.errors.bet_error import (
     BetNotFoundError,
     EventNotAvailableError,
@@ -175,7 +182,9 @@ async def test_finish_bets_by_event_use_case(
 ) -> None:
     await bet_repository.save(Bet.create(event_id=event_id, amount=amount))
     await bet_repository.save(Bet.create(event_id=event_id, amount=Decimal("25.00")))
-    await bet_repository.save(Bet.create(event_id="other-event", amount=Decimal("10.00")))
+    await bet_repository.save(
+        Bet.create(event_id="other-event", amount=Decimal("10.00"))
+    )
 
     use_case = FinishBetsByEventUseCase(bet_repository)
     finished = await use_case.execute(event_id, FINISHED_LOSE)

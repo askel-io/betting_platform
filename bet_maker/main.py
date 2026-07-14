@@ -12,9 +12,11 @@ from bet_maker.src.infrastructure.db.session import SessionLocal
 from bet_maker.src.infrastructure.messaging.kafka_event_finished_consumer import (
     KafkaEventFinishedConsumer,
 )
-from bet_maker.src.presentation.rest.dependencies import close_http_client
 from bet_maker.src.presentation.rest.api.v1.router import router as v1_router
-from bet_maker.src.presentation.rest.exception_handlers import register_exception_handlers
+from bet_maker.src.presentation.rest.dependencies import close_http_client
+from bet_maker.src.presentation.rest.exception_handlers import (
+    register_exception_handlers,
+)
 
 
 @asynccontextmanager

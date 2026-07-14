@@ -22,7 +22,9 @@ from bet_maker.src.presentation.rest.schemas.bet import (
 router = APIRouter(tags=["bets"])
 
 
-@router.post("/bet", response_model=PlaceBetResponse, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/bet", response_model=PlaceBetResponse, status_code=status.HTTP_201_CREATED
+)
 async def place_bet(
     body: PlaceBetRequest,
     use_case: Annotated[PlaceBetUseCase, Depends(get_place_bet_use_case)],

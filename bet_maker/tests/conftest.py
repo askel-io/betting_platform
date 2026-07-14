@@ -9,7 +9,12 @@ from decimal import Decimal
 import pytest
 import pytest_asyncio
 from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from bet_maker.src.application.dto.line_provider_event import LineProviderEventDTO
 from bet_maker.src.application.ports.line_provider_port import LineProviderPort

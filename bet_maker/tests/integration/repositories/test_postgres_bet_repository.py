@@ -2,7 +2,7 @@ from decimal import Decimal
 
 import pytest
 
-from bet_maker.src.domain.entities.bet import Bet, BetStatus, FINISHED_WIN
+from bet_maker.src.domain.entities.bet import FINISHED_WIN, Bet, BetStatus
 from bet_maker.src.infrastructure.repositories.postgres_bet_repository import (
     PostgresBetRepository,
 )

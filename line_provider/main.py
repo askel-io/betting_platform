@@ -11,7 +11,9 @@ from line_provider.src.infrastructure.messaging.publisher_registry import (
     set_event_finished_publisher,
 )
 from line_provider.src.presentation.rest.api.v1.router import router as v1_router
-from line_provider.src.presentation.rest.exception_handlers import register_exception_handlers
+from line_provider.src.presentation.rest.exception_handlers import (
+    register_exception_handlers,
+)
 
 
 @asynccontextmanager

@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from bet_maker.main import app
 from bet_maker.src.application.dto.line_provider_event import LineProviderEventDTO
-from bet_maker.src.domain.entities.bet import Bet, BetStatus, FINISHED_WIN
+from bet_maker.src.domain.entities.bet import FINISHED_WIN, Bet, BetStatus
 from bet_maker.src.infrastructure.db.session import get_session
 from bet_maker.src.infrastructure.repositories.postgres_bet_repository import (
     PostgresBetRepository,

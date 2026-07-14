@@ -2,6 +2,7 @@ from typing import Annotated
 
 import httpx
 from fastapi import Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from bet_maker.src.application.ports.line_provider_port import LineProviderPort
 from bet_maker.src.application.use_cases.finish_bet import FinishBetUseCase
@@ -15,7 +16,6 @@ from bet_maker.src.infrastructure.db.session import get_session
 from bet_maker.src.infrastructure.repositories.postgres_bet_repository import (
     PostgresBetRepository,
 )
-from sqlalchemy.ext.asyncio import AsyncSession
 
 _http_client: httpx.AsyncClient | None = None
 

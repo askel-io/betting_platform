@@ -9,7 +9,12 @@ from decimal import Decimal
 import pytest
 import pytest_asyncio
 from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from line_provider.src.infrastructure.db.base import Base
 from line_provider.src.infrastructure.db.models import EventModel  # noqa: F401

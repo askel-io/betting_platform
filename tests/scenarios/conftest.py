@@ -17,7 +17,12 @@ import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from bet_maker.main import app as bet_maker_app
 from bet_maker.main import lifespan as bet_maker_lifespan
@@ -29,8 +34,12 @@ from bet_maker.src.presentation.rest.dependencies import get_line_provider
 from line_provider.main import app as line_provider_app
 from line_provider.main import lifespan as line_provider_lifespan
 from line_provider.src.infrastructure.db.base import Base as LineProviderBase
-from line_provider.src.infrastructure.db.models.event_model import EventModel  # noqa: F401
-from line_provider.src.infrastructure.db.session import get_session as get_line_provider_session
+from line_provider.src.infrastructure.db.models.event_model import (  # noqa: F401
+    EventModel,
+)
+from line_provider.src.infrastructure.db.session import (
+    get_session as get_line_provider_session,
+)
 
 LINE_PROVIDER_TEST_DATABASE_URL = os.getenv(
     "LINE_PROVIDER_TEST_DATABASE_URL",
@@ -59,7 +68,9 @@ def kafka_is_available() -> bool:
 @pytest.fixture(scope="session", autouse=True)
 def require_kafka() -> None:
     if not kafka_is_available():
-        pytest.skip("Kafka is not available on localhost:9092. Run: docker compose up -d kafka")
+        pytest.skip(
+            "Kafka is not available on localhost:9092. Run: docker compose up -d kafka"
+        )
 
 
 @pytest_asyncio.fixture
@@ -130,7 +141,9 @@ async def platform_clients(
     line_provider_app.dependency_overrides[get_line_provider_session] = (
         override_line_provider_session
     )
-    bet_maker_app.dependency_overrides[get_bet_maker_session] = override_bet_maker_session
+    bet_maker_app.dependency_overrides[get_bet_maker_session] = (
+        override_bet_maker_session
+    )
 
     bet_maker_test_session_factory = async_sessionmaker(
         bet_maker_engine,
@@ -158,7 +171,9 @@ async def platform_clients(
                 assert line_provider_http is not None
                 return LineProviderClient("http://line-provider", line_provider_http)
 
-            bet_maker_app.dependency_overrides[get_line_provider] = override_line_provider
+            bet_maker_app.dependency_overrides[get_line_provider] = (
+                override_line_provider
+            )
 
             bet_maker_transport = ASGITransport(app=bet_maker_app)
             async with (

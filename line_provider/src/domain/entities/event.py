@@ -17,6 +17,7 @@ class EventState(Enum):
     FINISHED_WIN = "finished_win"
     FINISHED_LOSE = "finished_lose"
 
+
 def _to_coefficient(value: Decimal) -> Decimal:
     try:
         coefficient = Decimal(value).quantize(Decimal("0.01"))
