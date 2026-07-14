@@ -23,7 +23,6 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # Postgres credentials (docker-compose, не коммитить реальные значения)
     line_provider_postgres_user: str = "line_provider"
     line_provider_postgres_password: str = "line_provider"
     line_provider_postgres_db: str = "line_provider"
@@ -32,7 +31,6 @@ class Settings(BaseSettings):
     bet_maker_postgres_password: str = "bet_maker"
     bet_maker_postgres_db: str = "bet_maker"
 
-    # Database URLs — локальная разработка
     line_provider_database_url: str = Field(
         default="postgresql+asyncpg://line_provider:line_provider@localhost:5433/line_provider",
         validation_alias=AliasChoices("LINE_PROVIDER_DATABASE_URL", "DATABASE_URL"),
@@ -42,7 +40,6 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("BET_MAKER_DATABASE_URL", "DATABASE_URL"),
     )
 
-    # Database URLs — docker-compose (внутренняя сеть)
     line_provider_database_url_docker: str = (
         "postgresql+asyncpg://line_provider:line_provider@line-provider-db:5432/line_provider"
     )
@@ -50,7 +47,6 @@ class Settings(BaseSettings):
         "postgresql+asyncpg://bet_maker:bet_maker@bet-maker-db:5432/bet_maker"
     )
 
-    # Тестовые БД
     line_provider_test_database_url: str = (
         "postgresql+asyncpg://line_provider:line_provider@localhost:5433/line_provider_test"
     )
