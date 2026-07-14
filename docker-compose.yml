@@ -1,4 +1,12 @@
 services:
+  line-provider-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: line_provider
+      POSTGRES_USER: line_provider
+      POSTGRES_PASSWORD: line_provider
+    ports:
+      - "5432:5432"
   line-provider:
     build:
       context: .
@@ -10,6 +18,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    depends_on:
+      - line-provider-db
+    environment:
+      DATABASE_URL: postgresql+asyncpg://line_provider:line_provider@postgres:5432/line_provider
 
   bet-maker:
     build:
