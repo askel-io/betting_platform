@@ -47,13 +47,6 @@ class Settings(BaseSettings):
         "postgresql+asyncpg://bet_maker:bet_maker@bet-maker-db:5432/bet_maker"
     )
 
-    line_provider_test_database_url: str = (
-        "postgresql+asyncpg://line_provider:line_provider@localhost:5433/line_provider_test"
-    )
-    bet_maker_test_database_url: str = (
-        "postgresql+asyncpg://bet_maker:bet_maker@localhost:5434/bet_maker_test"
-    )
-
     # Kafka
     kafka_enabled: bool = True
     kafka_bootstrap_servers: str = "localhost:9092"

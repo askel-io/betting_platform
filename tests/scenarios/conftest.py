@@ -43,8 +43,8 @@ from line_provider.src.infrastructure.db.session import (
     get_session as get_line_provider_session,
 )
 
-LINE_PROVIDER_TEST_DATABASE_URL = _settings.line_provider_test_database_url
-BET_MAKER_TEST_DATABASE_URL = _settings.bet_maker_test_database_url
+LINE_PROVIDER_DATABASE_URL = _settings.line_provider_database_url
+BET_MAKER_DATABASE_URL = _settings.bet_maker_database_url
 
 FUTURE_DEADLINE = "2026-12-31T23:59:59Z"
 PAST_DEADLINE = "2020-01-01T00:00:00Z"
@@ -72,7 +72,7 @@ def require_kafka() -> None:
 
 @pytest_asyncio.fixture
 async def line_provider_engine() -> AsyncGenerator[AsyncEngine, None]:
-    engine = create_async_engine(LINE_PROVIDER_TEST_DATABASE_URL, echo=False)
+    engine = create_async_engine(LINE_PROVIDER_DATABASE_URL, echo=False)
     async with engine.begin() as connection:
         await connection.run_sync(LineProviderBase.metadata.create_all)
     yield engine
@@ -81,7 +81,7 @@ async def line_provider_engine() -> AsyncGenerator[AsyncEngine, None]:
 
 @pytest_asyncio.fixture
 async def bet_maker_engine() -> AsyncGenerator[AsyncEngine, None]:
-    engine = create_async_engine(BET_MAKER_TEST_DATABASE_URL, echo=False)
+    engine = create_async_engine(BET_MAKER_DATABASE_URL, echo=False)
     async with engine.begin() as connection:
         await connection.run_sync(BetMakerBase.metadata.create_all)
     yield engine
