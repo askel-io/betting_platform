@@ -33,11 +33,11 @@ class Settings(BaseSettings):
 
     line_provider_database_url: str = Field(
         default="postgresql+asyncpg://line_provider:line_provider@localhost:5433/line_provider",
-        validation_alias=AliasChoices("LINE_PROVIDER_DATABASE_URL", "DATABASE_URL"),
+        validation_alias=AliasChoices("DATABASE_URL", "LINE_PROVIDER_DATABASE_URL"),
     )
     bet_maker_database_url: str = Field(
         default="postgresql+asyncpg://bet_maker:bet_maker@localhost:5434/bet_maker",
-        validation_alias=AliasChoices("BET_MAKER_DATABASE_URL", "DATABASE_URL"),
+        validation_alias=AliasChoices("DATABASE_URL", "BET_MAKER_DATABASE_URL"),
     )
 
     line_provider_database_url_docker: str = (

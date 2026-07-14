@@ -8,6 +8,8 @@ Create Date: 2026-07-14
 
 from collections.abc import Sequence
 
+import sqlalchemy as sa
+
 from alembic import op
 
 revision: str = "002"
@@ -17,8 +19,16 @@ depends_on: str | Sequence[str] | None = None
 
 
 def upgrade() -> None:
-    op.alter_column("bets", "settled_at", new_column_name="finished_at")
+    bind = op.get_bind()
+    columns = {column["name"] for column in sa.inspect(bind).get_columns("bets")}
+
+    if "settled_at" in columns and "finished_at" not in columns:
+        op.alter_column("bets", "settled_at", new_column_name="finished_at")
 
 
 def downgrade() -> None:
-    op.alter_column("bets", "finished_at", new_column_name="settled_at")
+    bind = op.get_bind()
+    columns = {column["name"] for column in sa.inspect(bind).get_columns("bets")}
+
+    if "finished_at" in columns and "settled_at" not in columns:
+        op.alter_column("bets", "finished_at", new_column_name="settled_at")
